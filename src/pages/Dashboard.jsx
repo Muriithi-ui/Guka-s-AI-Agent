@@ -1,7 +1,8 @@
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react"; // ✅ Add useState
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify"; // ✅ Toastify import
 
 const topics = [
   { title: "Weather", icon: "🌦️" },
@@ -13,7 +14,7 @@ const topics = [
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [userEmail, setUserEmail] = useState(""); // ✅ Track user email
+  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -25,8 +26,10 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      toast.success("You’ve been logged out."); // ✅ Toast notification
       navigate("/login");
     } catch (error) {
+      toast.error("Logout failed. Please try again."); // ✅ Error toast
       console.error("Logout failed:", error);
     }
   };
