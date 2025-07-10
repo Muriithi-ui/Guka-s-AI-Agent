@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { toast } from "react-toastify"; // ✅ Toastify import
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,9 +14,12 @@ export default function Login() {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      toast.success(`Welcome back, ${email.split("@")[0]}!`); // ✅ Toast on success
       navigate("/dashboard");
     } catch (err) {
       setError("Login failed. Check your credentials.");
+      toast.error("Login failed. Check your credentials."); // ✅ Toast on error
+      console.error("Login error:", err);
     }
   };
 
@@ -40,7 +44,7 @@ export default function Login() {
           className="w-full p-2 mb-4 border rounded"
         />
         {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
-        <button type="submit" className="w-full px-4 py-2 text-white bg-green-600 rounded">
+        <button type="submit" className="w-full px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">
           Login
         </button>
       </form>
