@@ -1,7 +1,7 @@
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react"; // ✅ Add useState
 
 const topics = [
   { title: "Weather", icon: "🌦️" },
@@ -13,6 +13,14 @@ const topics = [
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [userEmail, setUserEmail] = useState(""); // ✅ Track user email
+
+  useEffect(() => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      setUserEmail(currentUser.email);
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -33,8 +41,8 @@ export default function Dashboard() {
         Logout
       </button>
 
-       {/* User greeting */}
-       <h1 className="mb-2 text-xl font-semibold">
+      {/* User greeting */}
+      <h1 className="mb-2 text-xl font-semibold">
         Welcome, {userEmail ? userEmail.split("@")[0] : "Farmer"} 👋
       </h1>
 
