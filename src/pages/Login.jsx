@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // ✅ Add Link
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { toast } from "react-toastify"; // ✅ Toastify import
@@ -47,6 +47,14 @@ export default function Login() {
         <button type="submit" className="w-full px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">
           Login
         </button>
+
+        {/* ✅ Sign up redirect */}
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Don’t have an account?{" "}
+          <Link to="/signup" className="text-green-600 hover:underline">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );
