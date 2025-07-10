@@ -33,7 +33,12 @@ export default function Dashboard() {
         Logout
       </button>
 
-      <h1 className="mb-6 text-2xl font-bold">Guka’s AI Agent</h1>
+       {/* User greeting */}
+       <h1 className="mb-2 text-xl font-semibold">
+        Welcome, {userEmail ? userEmail.split("@")[0] : "Farmer"} 👋
+      </h1>
+
+      <h2 className="mb-6 text-2xl font-bold">Guka’s AI Agent</h2>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {topics.map((t) => (
