@@ -15,3 +15,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// ✅ ADD THIS LINE TO EXPORT THE AUTH OBJECT
+export const auth = getAuth(app);
