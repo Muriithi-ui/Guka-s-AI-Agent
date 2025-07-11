@@ -1,8 +1,9 @@
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify"; // ✅ Toastify import
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { toast } from "react-toastify";
+import DashboardSummary from "../Components/DashboardSummary"; // ✅ New import
 
 const topics = [
   { title: "Weather", icon: "🌦️" },
@@ -26,32 +27,33 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      toast.success("You’ve been logged out."); // ✅ Toast notification
+      toast.success("You’ve been logged out.");
       navigate("/login");
     } catch (error) {
-      toast.error("Logout failed. Please try again."); // ✅ Error toast
+      toast.error("Logout failed. Please try again.");
       console.error("Logout failed:", error);
     }
   };
 
   return (
-    <div className="relative min-h-screen p-4 bg-green-50">
-      {/* Logout button */}
-      <button
-        onClick={handleLogout}
-        className="absolute px-4 py-2 text-sm text-white bg-red-500 rounded top-4 right-4 hover:bg-red-600"
-      >
-        Logout
-      </button>
+    <div className="min-h-screen p-4 bg-green-50">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-lg font-semibold">
+          Welcome, {userEmail ? userEmail.split("@")[0] : "Farmer"} 👋
+        </h1>
+        <button
+          onClick={handleLogout}
+          className="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600"
+        >
+          Logout
+        </button>
+      </div>
 
-      {/* User greeting */}
-      <h1 className="mb-2 text-xl font-semibold">
-        Welcome, {userEmail ? userEmail.split("@")[0] : "Farmer"} 👋
-      </h1>
+      {/* Dashboard summary card (hero section) */}
+      <DashboardSummary />
 
-      <h2 className="mb-6 text-2xl font-bold">Guka’s AI Agent</h2>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {/* Optional topic cards */}
+      <div className="grid grid-cols-1 gap-4 mt-6 sm:grid-cols-2">
         {topics.map((t) => (
           <div
             key={t.title}
